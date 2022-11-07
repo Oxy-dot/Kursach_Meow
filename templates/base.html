@@ -1,0 +1,79 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %}</title>
+      <link rel="icon" href="{% static 'favicon.ico' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <header>
+      <div class="px-3 py-2 text-bg-dark">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+              <img src={% static 'images/headers-ic/logo.png'%} alt="" class="bi me-2" width="40" height="40">
+            </a>
+              <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto" role="search">
+                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+              </form>
+            <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+              <li>
+                <div class="nav-link dropdown">
+                  <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                      <img src="{% static '/images/headers-ic/profile.png' %}" alt="mdo" width="30" height="30" class="rounded-circle">
+                  </a>
+                  <ul class="dropdown-menu text-small shadow">
+                      {% if user.is_authenticated %}
+                          <li><a class="dropdown-item" href="/profile/">Профиль</a></li>
+                          <li><a class="dropdown-item" href="/profile/basket">Корзина</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="/user/logout/">Выйти</a></li>
+                      {% else %}
+                          <li><a class="dropdown-item" href="/signup/">Войти</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="/signin/">Зарегистрироваться</a></li>
+                      {% endif %}
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="container d-flex justify-content-evenly">
+            <a href="/product/smartphones" class="flex-fill me-2 text-decoration-none text-dark" style="box-sizing: border-box; border: 1px solid #000000;">
+            <div class="bg-light p-3  text-center" >
+                <strong>Мобильные средства связи</strong>
+            </div>
+            </a>
+
+          <a href="/product/accessories" class="flex-fill me-2 text-decoration-none text-dark" style="box-sizing: border-box; border: 1px solid #000000;">
+            <div class="bg-light p-3  text-center" >
+                <strong>Аксессуары</strong>
+            </div>
+            </a>
+
+        </div>
+      </div>
+    </header>
+    {% block content %}
+    {% endblock %}
+
+  </body>
+  <footer class="container d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+      <p class="col-md-4 mb-0 text-muted">&copy; 2022 Фанкон, Inc</p>
+
+      <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <img src={% static 'images/headers-ic/logo.png'%} alt="" class="bi me-2" width="50" height="50">
+      </a>
+
+      <ul class="nav col-md-4 justify-content-end">
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Профиль</a></li>
+        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">О нас</a></li>
+      </ul>
+    </footer>
+</html>

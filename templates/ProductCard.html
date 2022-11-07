@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row align-items-center g-5 py-5">
+        <div class="col-10 col-sm-8 col-lg-6">
+            <img src="{% static photoLink %}" class="d-block mx-lg-auto img-fluid" alt="Фото товара" width="700" height="500" loading="lazy">
+        </div>
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3">{{ productName }}</h1>
+            <p class="lead">{{ smallSpecText}}</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <form class="" action="/product/addToBasket/{{id}}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-dark btn-lg px-4 me-md-2">Добавить в корзину</button>
+                </form>
+            </div>
+        </div>
+        <div class="">
+            <h1 class="display-7">Характеристика</h1>
+            <p>
+                {{ specText }}
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

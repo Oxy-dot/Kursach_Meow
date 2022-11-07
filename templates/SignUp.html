@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="modal modal-signin position-static d-block py-5" tabindex="-1" role="dialog" id="modalSignin">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content rounded-4 shadow bg-light">
+          <div class="" style="text-align:center">
+            <div class="btn-group w-100">
+                <button class="w-100 btn btn-secondary" type="button" name="button" style="box-sizing: border-box">Войти</button>
+                <button class="w-100 btn btn-light active " type="button" name="button" style="box-sizing: border-box">Зарегистрироваться</button>
+            </div>
+          </div>
+
+
+          <div class="modal-header p-5 pb-4 border-bottom-0 ">
+            <!-- <h1 class="modal-title fs-5" >Modal title</h1> -->
+            <h1 class="fw-bold mb-0 fs-2">Зарегистрироваться</h1>
+          </div>
+
+          <div class="modal-body p-5 pt-0 ">
+            <form class="" method="post" action="http://127.0.0.1:8000/signup/">
+                {% csrf_token %}
+                {{ form }}
+
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger" role="alert">
+                      {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+              <input class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit" value="Войти"></input>
+              <small class="text-muted">Нажимая на эту кнопку, вы соглашаетесь на обработку персональных данных.</small>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

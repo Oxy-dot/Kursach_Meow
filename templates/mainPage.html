@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    User {{ user }}
+    <div class="container d-flex justify-content-between">
+      <a href="#"><img src=" {% static imagesource %}" class="float-start" width="90%" alt=""></a>
+      <a href="#"><img src="{% static imagesource2 %}" class="float-end" width="90%" alt=""></a>
+    </div>
+
+    <div class="container bg-light text-center my-3 py-3" height=50px>
+      <strong>Новинки</strong>
+    </div>
+
+    <div class="container d-flex justify-content-arounds">
+        {% for card in cards %}
+             <div class="card mb-3 align-center p-2 m-1" style="max-width: 200px;">
+              <a href="#" class="text-decoration-none" style="color : black">
+             <div class="row g-0">
+                 <img src="{% static card.photoLink %}" class="img-fluid rounded-start p-2" style="height: 200px"  alt="...">
+                 <div class="card-body">
+                     <p class="text-muted fs-6">Смартфон</p>
+                     <h5 class="card-title fs-6" style="min-height : 60px"><strong>{{ card.Name }}</strong></h5>
+                     <p class="card-text">Цена: <strong>{{ card.Cost }}</strong></p>
+               </div>
+             </div>
+             </a>
+             </div>
+        {% endfor %}
+    </div>
+
+    <div class="container">
+      <div class="container px-4 py-5" id="featured-3">
+
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+          <div class="feature col">
+            <!-- <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+              <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+            </div> -->
+              <img src="{% static 'images/homePage/delivery-truck.png' %}" width="50px" height="50px" alt="">
+              <h3 class="fs-2">Удобная доставка</h3>
+              <p>Мы предлагаем широкий выбор способов получения заказа.</p>
+              <img src="bi" width="1em" height="1em" alt="">
+          </div>
+
+          <div class="feature col">
+            <!-- <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+              <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
+            </div> -->
+              <img src="{% static 'images/homePage/verified.png' %}" width="50px" height="50px" alt="">
+            <h3 class="fs-2">Качесетвенное гарантийное обслуживание</h3>
+            <p>Поможем с ремонтом товара и предоставим аппарат на замену.</p>
+
+          </div>
+
+          <div class="feature col">
+              <img src="{% static 'images/homePage/oplata.png' %}" width="50px" height="50px" alt="">
+            <h3 class="fs-2">Оплата любыми способоми</h3>
+            <p>3 способа оплаты для твоего удобства.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}

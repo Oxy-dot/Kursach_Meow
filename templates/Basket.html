@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="list-group w-auto container">
+    <form class="container" action="/profile/basket" method="post">
+    {% csrf_token %}
+    {% for card in cards %}
+    <label class="d-flex gap-3 list-group-item">
+    {% if cards.price == 'Товар отсутсвтует' %}
+        <input class="form-check-input flex-shrink-0"  type="checkbox" value="{{ card.id }}" name="basket" disabled style="font-size: 1.375em;">
+    {% else %}
+        <input class="form-check-input flex-shrink-0"  type="checkbox" value="{{ card.id }}" name="basket" checked style="font-size: 1.375em;">
+    {% endif %}
+        <span class="pt-1 form-checked-content">
+            <div class="row">
+                <div class="col">
+                    <img class="" src="{% static card.photoLink %}" width="200" height="200" alt="Meow">
+                </div>
+                <div class="col">
+                    <strong>{{ card.name }}</strong>
+                    <small class="d-block text-muted">
+                        {{ card.smallSpec }}
+                    </small>
+                </div>
+                <strong>Цена: {{ card.price }}</strong>
+            </div>
+        </span>
+    </label>
+    {% endfor %}
+    {% if count > 0 %}
+        <button type="submit" class="btn btn-dark mt-2" name="button">Оформить заказ</button>
+    {% else %}
+        <h2 class="text-center">Ваша корзина пуста</h2>
+    {% endif %}
+    </form>
+</div>
+{% endblock %}
