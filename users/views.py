@@ -74,34 +74,40 @@ def ShowProduct(request,filter):
     return render(request, "catalog.html", context={"cards": cards})
 
 def ShowProfile(request):
-    currentUser = CustomUser.objects.filter(id=request.user.id)[0]
-    return render(request,"Profile.html",context={"fio":currentUser.fullName,"email":currentUser.email,"phoneNumber":currentUser.phoneNumber,"adress":currentUser.adress})
+    if request.user.is_authenticated:
+        currentUser = CustomUser.objects.filter(id=request.user.id)[0]
+        return render(request,"Profile.html",context={"fio":currentUser.fullName,"email":currentUser.email,"phoneNumber":currentUser.phoneNumber,"adress":currentUser.adress})
+    else:
+        return render(request,'error.html')
 
 def error(request):
     return render(request,'error.html')
 
 def ShowBasket(request):
-    cards = []
-    if(request.method == "POST"):
-        mas = ""
-        productid = request.POST.getlist('basket')
-        for i in productid:
-            mas += i
-        return redirect('checkout/' + mas)
-    else:
-        basketProduct = Basket.objects.filter(idUser_id=request.user.id)
-        for row in basketProduct:
-            specfic = Specifications.objects.filter(idProduct=row.idProduct)
-            product = Product.objects.filter(id=row.idProduct_id)[0]
-            if Product.objects.filter(id = row.idProduct.id)[0].count > 0:
-                cards.append({"photoLink": '/images/ProductImages/' + product.photoLink, "Name": product.name,
-                          "smallSpec": specfic[0].shortSpecification,
-                          "price": product.price, "id": product.id})
-            else:
-                cards.append({"photoLink": '/images/ProductImages/' + product.photoLink, "Name": product.name,
+    if request.user.is_authenticated:
+        cards = []
+        if(request.method == "POST"):
+            mas = ""
+            productid = request.POST.getlist('basket')
+            for i in productid:
+                mas += i
+            return redirect('checkout/' + mas)
+        else:
+            basketProduct = Basket.objects.filter(idUser_id=request.user.id)
+            for row in basketProduct:
+                specfic = Specifications.objects.filter(idProduct=row.idProduct)
+                product = Product.objects.filter(id=row.idProduct_id)[0]
+                if Product.objects.filter(id = row.idProduct.id)[0].count > 0:
+                    cards.append({"photoLink": '/images/ProductImages/' + product.photoLink, "Name": product.name,
                               "smallSpec": specfic[0].shortSpecification,
-                              "price": 'Товар отсутсвтует', "id": product.id})
-        return render(request, "Basket.html", context={"cards": cards, 'count': len(cards)})
+                              "price": product.price, "id": product.id})
+                else:
+                    cards.append({"photoLink": '/images/ProductImages/' + product.photoLink, "Name": product.name,
+                                  "smallSpec": specfic[0].shortSpecification,
+                                  "price": 'Товар отсутсвтует', "id": product.id})
+            return render(request, "Basket.html", context={"cards": cards, 'count': len(cards)})
+    else:
+        render(request,'error.html')
 
 
 def checkout(request,prodid):
@@ -149,29 +155,33 @@ def LikeProduct(request,id):
     else:
         return redirect('/')
 
-def AddToBasket(requset,id):
-    if (requset.method == "POST"):
-        curProduct = Basket.objects.filter(idUser=CustomUser.objects.filter(id=requset.user.id)[0].id) & Basket.objects.filter(idProduct=Product.objects.filter(id=id)[0].id)
-        if (len(curProduct) == 0):
-            try:
-                toBasket = Basket((Basket.objects.latest('id').id)+1,
-                                             CustomUser.objects.filter(id=requset.user.id)[0].id,
-                                             Product.objects.filter(id=id)[0].id,1)
-            except ObjectDoesNotExist:
-                toBasket = Basket(1,
-                                             CustomUser.objects.filter(id=requset.user.id)[0].id,
-                                             Product.objects.filter(id=id)[0].id,1)
+def AddToBasket(request, id):
+    if request.user.is_authenticated:
+        if (request.method == "POST"):
+            curProduct = Basket.objects.filter(idUser=CustomUser.objects.filter(id=request.user.id)[0].id) & Basket.objects.filter(idProduct=Product.objects.filter(id=id)[0].id)
+            if (len(curProduct) == 0):
+                try:
+                    toBasket = Basket((Basket.objects.latest('id').id) + 1,
+                                      CustomUser.objects.filter(id=request.user.id)[0].id,
+                                      Product.objects.filter(id=id)[0].id, 1)
+                except ObjectDoesNotExist:
+                    toBasket = Basket(1,
+                                      CustomUser.objects.filter(id=request.user.id)[0].id,
+                                      Product.objects.filter(id=id)[0].id, 1)
 
-            toBasket.save()
-            return redirect("/product/smartphones")
+                toBasket.save()
+                return redirect("/product/smartphones")
+            else:
+                curProduct.delete()
+                return redirect("/product/smartphones")
         else:
-            curProduct.delete()
-            return redirect("/product/smartphones")
+            return redirect('/')
     else:
-        return redirect('/')
+        render(request,'error.html')
+
 def Home(request):
     cards = []
-    table = Product.objects.filter(isAdvertisement=False)
+    table = Product.objects.filter(isAdvertisement=True)
     for row in table:
         cards.append({"photoLink": 'images/ProductImages/' + row.photoLink, "Name": row.name,
                       "Cost": row.price})

@@ -6,7 +6,7 @@ from .models import CustomUser
 class CustomUserCreateForm(UserCreationForm):
     class Meta:
         model = CustomUser
-        fields = {"fullName","email","phoneNumber","adress"}
+        fields = {"fullName","email","phoneNumber"}
         widgets = {'fullName': forms.TextInput(attrs={'class': 'form-control'}),'email':forms.EmailInput(attrs={'class': 'form-control'}),'phoneNumber':forms.TextInput(attrs={'class': 'form-control'})}
 class CustomUserChangeForm(UserChangeForm):
     class Meta:

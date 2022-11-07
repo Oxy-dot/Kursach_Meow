@@ -54,12 +54,3 @@ class Basket(models.Model):
     idUser = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     idProduct = models.ForeignKey(Product, on_delete=models.CASCADE)
     count = models.IntegerField()
-
-class Session(models.Model):
-    sessionID = models.CharField(max_length=32)
-    sessionExpired = models.DateTimeField()
-    userID = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-
-class LikedProducts(models.Model):
-    userId = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    productId = models.ForeignKey(Product, on_delete=models.CASCADE)

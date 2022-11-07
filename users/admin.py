@@ -2,6 +2,17 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from users.models import CustomUser
+from .models import *
+
+admin.site.register(Product)
+admin.site.register(ProductType)
+admin.site.register(Supplier)
+admin.site.register(Supply)
+admin.site.register(Manafacturer)
+admin.register(Purchases)
+admin.register(Specifications)
+admin.register(Basket)
+admin.register(Supply)
 
 
 @admin.register(CustomUser)
@@ -34,6 +45,8 @@ class CustomUserAdmin(UserAdmin):
     )
     # Edit user
     list_editable = ['fullName', 'phoneNumber', 'adress']
+
+
 
 
 
