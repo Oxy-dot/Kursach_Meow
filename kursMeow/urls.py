@@ -22,4 +22,6 @@ urlpatterns = [
     path('product/likeProduct/<int:id>',LikeProduct,name="add in like"),
     path('product/addToBasket/<int:id>',AddToBasket, name="add in basket"),
     path('profile/checkout/<str:prodid>',checkout),
+
+    path('error',error),
 ]

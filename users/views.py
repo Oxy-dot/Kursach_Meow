@@ -77,6 +77,9 @@ def ShowProfile(request):
     currentUser = CustomUser.objects.filter(id=request.user.id)[0]
     return render(request,"Profile.html",context={"fio":currentUser.fullName,"email":currentUser.email,"phoneNumber":currentUser.phoneNumber,"adress":currentUser.adress})
 
+def error(request):
+    return render(request,'error.html')
+
 def ShowBasket(request):
     cards = []
     if(request.method == "POST"):
